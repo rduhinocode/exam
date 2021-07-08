@@ -32,3 +32,5 @@ php artisan db:seed
 create Class in app/WeatherData
 extends Weather class
 ```
+Sample Display
+![image](https://user-images.githubusercontent.com/87002075/124963395-556bcb80-e052-11eb-9bbf-41d612c3cf7b.png)
