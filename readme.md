@@ -5,6 +5,7 @@ Things that are provided or used in the repository.
   - Migration
   - Seeder
   - Env
+  - Cache
 
 #Setup  
 ```
@@ -24,4 +25,10 @@ npm run watch
 ```
 php artisan migrate
 php artisan db:seed
+```
+
+### Creating Datasource
+```
+create Class in app/WeatherData
+extends Weather class
 ```
