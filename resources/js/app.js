@@ -42,27 +42,74 @@ window.dataRoute = function (name, routeObject = {}) {
     return "";
 };
 
+// Add a response interceptor
+axios.interceptors.response.use(function (response) {
+    // Do something with response data
+    return response;
+}, function (error) {
+    if (error.response && error.response.data) {
+        return Promise.reject(error.response.data);
+    }
+
+    return Promise.reject(error);
+});
+
+
 const app = new Vue({
     el: '#app',
     data () {
         return {
             selectedCountry: '',
-            selectedCity: '',
             countries: [],
-            cities: []
+            cities: [],
+            searchCountry: "",
+            searchCity: "",
+            weatherData: {}
+        }
+    },
+    computed: {
+        filteredCountries() {
+            let country =  this.countries;
+            if (this.searchCountry) {
+                country = country.filter((c) => {
+                    return c.name.toLowerCase().includes(this.searchCountry.toLowerCase());
+                });
+            }
+
+            return country;
+        },
+        filteredCities() {
+            let cities =  this.cities;
+            if (this.searchCity) {
+                cities = cities.filter((c) => {
+                    return c.name.toLowerCase().includes(this.searchCity.toLowerCase());
+                });
+            }
+
+            return cities;
         }
     },
     mounted() {
         this.countries = window.countries;
     },
     watch: {
-        selectedCountry(id) {
-            if (id) {
-                axios.get(dataRoute("countries", {"country": id}))
+        selectedCountry(country) {
+            if (country) {
+                axios.get(dataRoute("countries", {"country": country.id}))
                     .then((res) => {
                         this.cities = res.data;
                     });
             }
+        }
+    },
+    methods: {
+        getWeather(city) {
+            axios.post(dataRoute("weather"), {"city": city.id})
+                .then((res) => {
+                    this.weatherData = res.data;
+                }).catch((res) => {
+                    this.errors = res.errors;
+                });
         }
     }
 });

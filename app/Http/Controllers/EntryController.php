@@ -3,16 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
-use Illuminate\Http\Request;
+use App\Traits\WeatherApiTrait;
 
 class EntryController extends Controller {
+    use WeatherApiTrait;
+
     public function index() {
         return view('home', [
             'countries' => Country::all(),
          ]);
-    }
-
-    public function getWeather(Request $request) {
-
     }
 }

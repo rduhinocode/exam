@@ -15,21 +15,28 @@ class CountryCitySeeder extends Seeder {
         if (Storage::exists("public/countries.json")) {
             $countries = json_decode(Storage::get("public/countries.json"), true);
 
+
             foreach ($countries as $country) {
                 $saveCountry = Country::create([
                     "name" => $country["name"],
-                    "code" => $country["iso2"]
+                    "code" => $country["iso2"],
+                    "flag" => $country["emoji"],
+                    "flagU" => $country["emojiU"]
                 ]);
-                $cities = [];
-                foreach ($country["states"] as $city) {
-                    $cities[] = [
-                        "country_id" => $saveCountry->id,
-                        "name" => $city["name"],
-                        "code" => $city["state_code"]
-                    ];
-                }
 
-                City::insert($cities);
+                foreach ($country["states"] as $state) {
+                    $cities = [];
+                    foreach($state["cities"] as $city) {
+                        $cities[] = [
+                            "country_id" => $saveCountry->id,
+                            "name" => $city["name"],
+                            "latitude" => $city["latitude"],
+                            "longitude" => $city["longitude"]
+                        ];
+                    }
+
+                    City::insert($cities);
+                }
             }
         }
     }
