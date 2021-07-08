@@ -15,11 +15,14 @@ class CreateCitiesTable extends Migration
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('country_id')->unsigned()->index();
             $table->string('name');
             $table->string('latitude');
             $table->string('longitude');
-            $table->integer('country_id');
             $table->timestamps();
+
+            $table->foreign('country_id')->references('id')->on('countries');
+
         });
     }
 
@@ -30,6 +33,10 @@ class CreateCitiesTable extends Migration
      */
     public function down()
     {
+        Schema::table("cities", function (Blueprint $table) {
+            $table->dropForeign('cities_country_id_foreign');
+        });
+
         Schema::dropIfExists('cities');
     }
 }
