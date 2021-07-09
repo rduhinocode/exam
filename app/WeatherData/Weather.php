@@ -26,8 +26,20 @@ abstract class Weather {
         "sea_level" => 0
     ];
 
+    /*
+     * Set Api Queries, url and some data sources
+     *
+     * @return void
+     */
     abstract protected function setApiResource();
+
+    /*
+    * Set data mapping from api data to your needed data
+    *
+    * @return void
+    */
     abstract protected function setDataMapping();
+
 
     public function __construct($city) {
         $this->city = $city;
