@@ -24,7 +24,7 @@ npm run watch
 #Migration
 ```
 php artisan migrate
-php artisan db:seed
+php artisan db:seed (not complete seed. some countries might have no cities added yet)
 ```
 
 ### Creating Datasource
