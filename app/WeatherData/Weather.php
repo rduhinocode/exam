@@ -77,7 +77,7 @@ abstract class Weather {
     /*
      * Handles compare data, calculate values to average. Current $cleanData will be the base of which fields to compare.
      *
-     * @param array
+     * @param Weather $dataToCompare
      * @return array
      */
     public function compareData(Weather $dataToCompare) {
