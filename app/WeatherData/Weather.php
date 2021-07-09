@@ -2,7 +2,7 @@
 
 namespace App\WeatherData;
 
-class Weather {
+abstract class Weather {
     /*
      * Api data will be save in this variable
      */
@@ -11,6 +11,8 @@ class Weather {
     protected $header;
     protected $method = "GET";
     protected $body = [];
+    protected $city;
+    protected $dataMapping = [];
 
     /*
      * Predefine weather clean data array
@@ -24,8 +26,17 @@ class Weather {
         "sea_level" => 0
     ];
 
+    abstract protected function setApiResource();
+    abstract protected function setDataMapping();
+
+    public function __construct($city) {
+        $this->city = $city;
+        $this->setApiResource();
+        $this->setDataMapping();
+    }
+
     /*
-     * Get Api Data
+     * Raw Data from Api
      *
      * @return array
      */
@@ -37,6 +48,11 @@ class Weather {
         return $this->data;
     }
 
+    /*
+     * Clean Api Data
+     *
+     * @return array
+     */
     public function getCleanApidata() {
         if (empty($this->data)) {
             $this->data = $this->requestApiData();

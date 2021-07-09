@@ -27,6 +27,8 @@ trait WeatherApiTrait {
         $cacheName = "weather-city-{$city->id}";
         $expiresAt = Carbon::now()->addMinutes(30);
 
+        Cache::forget($cacheName);
+
         $weatherData = Cache::remember($cacheName, $expiresAt, function() use($city) {
             $openWeather = new OpenWeather($city);
             $weatherData = $openWeather->compareData(new WeatherBit($city));
